@@ -13,6 +13,7 @@ import {
 import { getReorderDestinationIndex } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index";
 import { TaskItem } from "./TaskItem";
 import { Task } from "../types";
+import confetti from "canvas-confetti";
 
 interface TaskListProps {
   tasks: Task[];
@@ -21,6 +22,44 @@ interface TaskListProps {
   onDelete: (id: string) => void;
 }
 
+// Add the confetti function outside the component
+const triggerConfetti = () => {
+  const defaults = {
+    origin: { y: 0.7 },
+  };
+
+  const fire = (particleRatio: number, opts: confetti.Options) => {
+    confetti({
+      ...defaults,
+      ...opts,
+      particleCount: Math.floor(200 * particleRatio),
+    });
+  };
+
+  fire(0.25, {
+    spread: 26,
+    startVelocity: 55,
+  });
+  fire(0.2, {
+    spread: 60,
+  });
+  fire(0.35, {
+    spread: 100,
+    decay: 0.91,
+    scalar: 0.8,
+  });
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 25,
+    decay: 0.92,
+    scalar: 1.2,
+  });
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 45,
+  });
+};
+
 export function TaskList({
   tasks,
   onTasksReorder,
@@ -28,6 +67,30 @@ export function TaskList({
   onDelete,
 }: TaskListProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const hasShownConfetti = useRef(false);
+
+  // Wrap the onStatusChange to add confetti logic
+  const handleStatusChange = (id: string, status: Task["status"]) => {
+    // First call the original handler
+    onStatusChange(id, status);
+
+    // Check if this change would complete all tasks
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, status } : task
+    );
+
+    if (
+      !hasShownConfetti.current &&
+      status === "completed" &&
+      updatedTasks.length > 0 &&
+      updatedTasks.every((task) => task.status === "completed")
+    ) {
+      triggerConfetti();
+      hasShownConfetti.current = true;
+    } else if (!updatedTasks.every((task) => task.status === "completed")) {
+      hasShownConfetti.current = false;
+    }
+  };
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -105,7 +168,7 @@ export function TaskList({
           <DraggableTaskItem
             task={task}
             index={index}
-            onStatusChange={onStatusChange}
+            onStatusChange={handleStatusChange}
             onDelete={onDelete}
           />
         </div>
