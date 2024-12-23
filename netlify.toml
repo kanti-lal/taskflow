@@ -5,12 +5,4 @@
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval';"
-    X-Content-Type-Options = "nosniff" 
+  status = 200 
