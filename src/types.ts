@@ -4,3 +4,13 @@ export interface Task {
   status: "pending" | "completed" | "closed";
   createdAt: string;
 }
+
+export interface Note {
+  id: string;
+  content: string;
+  createdAt: string;
+  position?: {
+    x: number;
+    y: number;
+  };
+}
