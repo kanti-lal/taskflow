@@ -22,7 +22,7 @@ export function TaskItem({
       <div className="text-white dark:text-gray-400">{indexNumber + 1}</div>
       <div className="flex-1 min-w-0">
         <p
-          className={`text-gray-900 dark:text-gray-100 truncate ${
+          className={`text-gray-900 dark:text-gray-100 line-clamp-2 ${
             task.status === "completed"
               ? "line-through text-gray-500 dark:text-gray-400"
               : ""
