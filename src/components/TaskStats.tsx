@@ -7,9 +7,8 @@ interface TaskStatsProps {
 
 export function TaskStats({ tasks }: TaskStatsProps) {
   const completedTasks = tasks.filter((t) => t.status === "completed").length;
-  const completionPercentage = Math.round(
-    (completedTasks / tasks.length) * 100
-  );
+  const completionPercentage =
+    tasks.length === 0 ? 0 : Math.round((completedTasks / tasks.length) * 100);
 
   const stats = [
     {
