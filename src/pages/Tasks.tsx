@@ -24,12 +24,17 @@ export function Tasks() {
   }, []);
 
   // Group tasks by date
-  const tasksByDate = tasks.reduce((acc, task) => {
-    const date = format(new Date(task.createdAt), "yyyy-MM-dd");
-    if (!acc[date]) acc[date] = [];
-    acc[date].push(task);
-    return acc;
-  }, {} as Record<string, Task[]>);
+  const tasksByDate = tasks.reduce(
+    (acc, task) => {
+      const date = format(new Date(task.createdAt), "yyyy-MM-dd");
+      if (!acc[date]) acc[date] = [];
+      acc[date].push(task);
+      return acc;
+    },
+    {
+      [format(new Date(), "yyyy-MM-dd")]: [],
+    } as Record<string, Task[]>
+  );
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -79,8 +84,33 @@ export function Tasks() {
             <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
               Task History
             </h2>
+            <div className="mb-4">
+              <div
+                onClick={() =>
+                  setSelectedDate(format(new Date(), "yyyy-MM-dd"))
+                }
+                className={`p-3 rounded-lg transition-colors cursor-pointer ${
+                  selectedDate === format(new Date(), "yyyy-MM-dd")
+                    ? "bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-500/50"
+                    : "hover:bg-gray-50 dark:hover:bg-gray-700"
+                }`}
+              >
+                <p className="font-medium text-blue-700 dark:text-blue-300">
+                  Today
+                  <span className="ml-2 text-sm font-normal text-blue-600 dark:text-blue-400">
+                    (Add new tasks)
+                  </span>
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  {(tasksByDate[format(new Date(), "yyyy-MM-dd")] || []).length}{" "}
+                  tasks
+                </p>
+              </div>
+            </div>
+
             <div className="space-y-2">
               {Object.entries(tasksByDate)
+                .filter(([date]) => !isToday(new Date(date)))
                 .sort(
                   (a, b) => new Date(b[0]).getTime() - new Date(a[0]).getTime()
                 )

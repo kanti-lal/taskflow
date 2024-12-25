@@ -5,15 +5,21 @@ interface TaskItemProps {
   task: Task;
   onStatusChange: (id: string, status: Task["status"]) => void;
   onDelete: (id: string) => void;
+  indexNumber: number;
 }
 
-export function TaskItem({ task, onStatusChange, onDelete }: TaskItemProps) {
+export function TaskItem({
+  task,
+  onStatusChange,
+  onDelete,
+  indexNumber,
+}: TaskItemProps) {
   return (
     <div className="flex items-center rounded-lg gap-3 p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group">
       <div className="text-gray-400 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity">
         <GripVertical size={20} />
       </div>
-
+      <div className="text-white dark:text-gray-400">{indexNumber + 1}</div>
       <div className="flex-1 min-w-0">
         <p
           className={`text-gray-900 dark:text-gray-100 truncate ${

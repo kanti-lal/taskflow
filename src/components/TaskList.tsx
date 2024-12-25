@@ -170,6 +170,7 @@ export function TaskList({
             index={index}
             onStatusChange={handleStatusChange}
             onDelete={onDelete}
+            indexNumber={index}
           />
         </div>
       ))}
@@ -185,12 +186,14 @@ export function TaskList({
 function DraggableTaskItem({
   task,
   index,
+  indexNumber,
   ...props
 }: {
   task: Task;
   index: number;
   onStatusChange: (id: string, status: Task["status"]) => void;
   onDelete: (id: string) => void;
+  indexNumber: any;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -220,7 +223,7 @@ function DraggableTaskItem({
         hover:shadow-md transition-all duration-200 
         active:shadow-lg active:scale-[1.02]"
     >
-      <TaskItem task={task} {...props} />
+      <TaskItem task={task} {...props} indexNumber={indexNumber} />
     </div>
   );
 }

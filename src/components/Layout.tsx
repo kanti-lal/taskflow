@@ -59,7 +59,13 @@ export function Layout() {
               <Greeting hour={dateTime.getHours()} />
 
               <div className="text-sm text-gray-600 dark:text-gray-300">
-                <div>{dateTime.toLocaleDateString()}</div>
+                <div>
+                  {dateTime.toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </div>
                 <div>{dateTime.toLocaleTimeString()}</div>
               </div>
 
