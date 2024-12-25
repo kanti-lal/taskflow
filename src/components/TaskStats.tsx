@@ -55,7 +55,7 @@ export function TaskStats({ tasks }: TaskStatsProps) {
   ];
 
   return (
-    <div className="grid grid-cols-5 gap-4 mb-6">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
       {stats.map(
         ({
           key,
@@ -68,7 +68,7 @@ export function TaskStats({ tasks }: TaskStatsProps) {
         }) => (
           <div
             key={key}
-            className={`bg-gradient-to-br ${gradient} p-3 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 hover:shadow-xl relative overflow-hidden`}
+            className={`bg-gradient-to-br ${gradient} p-3 rounded-lg shadow-lg transition-transform duration-200 hover:shadow-xl relative overflow-hidden`}
           >
             {/* Background Icon */}
             <div className="absolute -right-2 -bottom-2 opacity-15">

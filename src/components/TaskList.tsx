@@ -25,7 +25,7 @@ interface TaskListProps {
 // Add the confetti function outside the component
 const triggerConfetti = () => {
   const defaults = {
-    origin: { y: 0.7 },
+    origin: { y: 0.9 },
   };
 
   const fire = (particleRatio: number, opts: confetti.Options) => {
